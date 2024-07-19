@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Website</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #000;
+        }
+
+        body {
+            background-image: url("images/bg.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100%;
+            position: relative;
+        }
+
+        p {
+            z-index: 100;
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            left: 50%;
+            bottom: 5%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <img src="images/nerd-knight.png" alt="nerd-knight">
+        <p>Hello World!</p>
+    </div>
+</body>
+
+</html>
