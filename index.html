@@ -3,9 +3,32 @@
 
 <head>
     <title>My Website</title>
+    <link rel="stylesheet" href="styles/flip.min.css" />
     <style>
         html,
         body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        body {
+            background-image: url("images/bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
             margin: 0;
             padding: 0;
             height: 100%;
@@ -13,29 +36,36 @@
             background-color: #000;
         }
 
-        body {
-            background-image: url("images/bg.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
         .wrapper {
             display: flex;
             justify-content: center;
             align-items: flex-end;
             height: 100%;
-            position: relative;
+            position: fixed;
         }
 
-        p {
+        .tick {
+            padding-bottom: 1em;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans,
+                Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
             z-index: 100;
             position: absolute;
             color: white;
-            font-size: 24px;
+            font-size: 40px;
             font-weight: bold;
             left: 50%;
-            bottom: 5%;
             transform: translateX(-50%);
+        }
+
+        .tick-label {
+            font-size: 0.375em;
+            text-align: center;
+        }
+
+        .tick-group {
+            margin: 0 0.25em;
+            text-align: center;
         }
     </style>
 </head>
@@ -43,8 +73,59 @@
 <body>
     <div class="wrapper">
         <img src="images/nerd-knight.png" alt="nerd-knight">
-        <p>Hello World!</p>
+        <div class="tick" data-did-init="handleTickInit">
+            <div data-repeat="true" data-layout="horizontal center fit" data-transform="preset(d, h, m, s) -> delay">
+                <div class="tick-group">
+                    <div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay">
+                        <span data-view="flip"></span>
+                    </div>
+
+                    <span data-key="label" data-view="text" class="tick-label"></span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function handleTickInit(tick) {
+            // Function to start or restart the countdown
+            function startCountdown() {
+                var nextWednesday = getNextWednesday();
+                // Ensure the date is in the correct format for Tick.count.down
+                var countdownDate = nextWednesday.getFullYear() + '-' +
+                    (nextWednesday.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                    nextWednesday.getDate().toString().padStart(2, '0');
+
+                Tick.count.down(countdownDate).onupdate = function (value) {
+                    tick.value = value;
+                };
+
+                // When countdown finishes, restart it
+                Tick.count.down(countdownDate).onended = function () {
+                    startCountdown(); // Recalculate next Wednesday and restart countdown
+                };
+            }
+
+            // Function to get the next Wednesday date
+            function getNextWednesday() {
+                const today = new Date();
+                const desiredDay = 3; // Wednesday has a value of 3 (0 - Sunday, 6 - Saturday)
+
+                let daysToAdd = (desiredDay + 7 - today.getDay()) % 7;
+                // Adjust for cases where today is already Wednesday
+                daysToAdd = daysToAdd === 0 ? 7 : daysToAdd;
+
+                const nextWednesday = new Date(today.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+                // Reset hours, minutes, seconds, and milliseconds to start the day
+                nextWednesday.setHours(18, 0, 0, 0);
+                return nextWednesday;
+            }
+
+            // Start the countdown for the first time
+            startCountdown();
+        }
+    </script>
+    <script src="scripts/flip.min.js"></script>
 </body>
 
 </html>
