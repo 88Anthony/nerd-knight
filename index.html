@@ -94,7 +94,7 @@
                 // Ensure the date is in the correct format for Tick.count.down
                 var countdownDate = nextWednesday.getFullYear() + '-' +
                     (nextWednesday.getMonth() + 1).toString().padStart(2, '0') + '-' +
-                    nextWednesday.getDate().toString().padStart(2, '0');
+                    nextWednesday.getDate().toString().padStart(2, '0') + ' 18:00';
 
                 Tick.count.down(countdownDate).onupdate = function (value) {
                     tick.value = value;
