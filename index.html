@@ -115,7 +115,7 @@
                 // Adjust for cases where today is already Wednesday
                 daysToAdd = daysToAdd === 0 ? 7 : daysToAdd;
 
-                const nextWednesday = new Date(today.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+                const nextWednesday = new Date(today.getTime() + daysToAdd * 24 * 60 * 60 * 1000 * 18);
                 // Reset hours, minutes, seconds, and milliseconds to start the day
                 nextWednesday.setHours(18, 0, 0);
                 return nextWednesday;
