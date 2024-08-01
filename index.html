@@ -90,35 +90,9 @@
         function handleTickInit(tick) {
             // Function to start or restart the countdown
             function startCountdown() {
-                var nextWednesday = getNextWednesday();
-                // Ensure the date is in the correct format for Tick.count.down
-                var countdownDate = nextWednesday.getFullYear() + '-' +
-                    (nextWednesday.getMonth() + 1).toString().padStart(2, '0') + '-' +
-                    nextWednesday.getDate().toString().padStart(2, '0') + ' 18:00';
-
-                Tick.count.down(countdownDate).onupdate = function (value) {
+                Tick.count.schedule('every wednesday at 18:00').onupdate = function (value) {
                     tick.value = value;
-                };
-
-                // When countdown finishes, restart it
-                Tick.count.down(countdownDate).onended = function () {
-                    startCountdown(); // Recalculate next Wednesday and restart countdown
-                };
-            }
-
-            // Function to get the next Wednesday date
-            function getNextWednesday() {
-                const today = new Date();
-                const desiredDay = 3; // Wednesday has a value of 3 (0 - Sunday, 6 - Saturday)
-
-                let daysToAdd = (desiredDay + 7 - today.getDay()) % 7;
-                // Adjust for cases where today is already Wednesday
-                daysToAdd = daysToAdd === 0 ? 7 : daysToAdd;
-
-                const nextWednesday = new Date(today.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
-                // Reset hours, minutes, seconds, and milliseconds to start the day
-                nextWednesday.setHours(23, 0, 0);
-                return nextWednesday;
+                }
             }
 
             // Start the countdown for the first time
